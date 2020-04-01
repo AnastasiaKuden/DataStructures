@@ -229,17 +229,124 @@ namespace DataStructures
         {
             if (Length != 0)
             {
-                Node tmp = root;
-                Node b = new Node(0);
-                for (int i = 0; i < Length - a; i++)
-                    while (tmp.Next != null)
+                if (Length <= a)
+                {
+                    root = null;
+                    length = 0;
+                }
+                else
+                {
+                    Node tmp = root;
+                    Node b = new Node(0);
+                    for (int i = 0; i < Length - a; i++)
+                    {
+                        b = tmp;
+                        tmp = tmp.Next;
+                    }                        
+                    tmp = b;
+                    tmp.Next = null;
+                    length -= a;
+                }                
+            }
+        }
+
+        public void RemoveFromBeginning()  //удаляем значение из начала
+        {
+            if (Length != 0)
+            {                
+                root = root.Next;
+                length--;
+            }
+        }
+
+        public void RemoveFromBeginning(int a)  //удаляем несколько значений из начала
+        {
+            if (Length != 0)
+            {
+                if (Length <= a)
+                {
+                    root = null;
+                    length = 0;
+                }
+                else
+                {
+                    Node tmp = root;
+                    for (int i = 0; i < a - 1; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
+                    root = tmp.Next;
+                    length -= a;
+                }
+            }
+        }
+
+        public void RemoveByIndex(int a)  //удаляем значение по индексу
+        {            
+            if (Length != 0 && Length > a)
+            {   
+                if (a != 0)
+                {
+                    Node tmp = root;
+                    Node b = new Node(0);
+                    for (int i = 0; i < a; i++)
                     {
                         b = tmp;
                         tmp = tmp.Next;
                     }
-                tmp = b;
-                tmp.Next = null;
-                length--;
+                    Node c = tmp.Next;
+                    tmp = b;
+                    tmp.Next = c;
+                    length--;
+                }
+                else
+                {
+                    root = root.Next;
+                    length--;
+                }
+            }            
+        }
+
+        public void RemoveByIndex(int index, int a)  //удаляем несколько значений по индексу
+        {
+            if (Length != 0 && Length > index)
+            {
+                if (index == 0)
+                {
+                    RemoveFromBeginning(a);
+                }                
+                else 
+                {
+                    Node tmp = root;
+                    Node b = new Node(0);
+                    for (int i = 0; i < index; i++)
+                    {
+                        b = tmp;
+                        tmp = tmp.Next;
+                    }
+                    if (Length >= index + a)
+                    {
+                        for (int i = 0; i < a; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        Node c = tmp;
+                        tmp = b;
+                        tmp.Next = c;
+                        length -= a;
+                    }                         
+                    else
+                    {
+                        for (int i = 0; i < a && tmp != null; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        Node c = tmp;
+                        tmp = b;
+                        tmp.Next = c;
+                        length = index;
+                    }
+                }                
             }
         }
     }
