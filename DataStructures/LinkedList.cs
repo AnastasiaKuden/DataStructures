@@ -464,27 +464,53 @@ namespace DataStructures
 
         public void SortInAscending() //делаем сортировку по возрастанию (пузырьком)
         {
-            Node tmp = root;            
+            Node tmp = root;
             for (int i = 1; i < Length; i++)
-            {
+            {                
                 int l = 0;
+                if (tmp.Value > tmp.Next.Value)
+                {
+                    int b = tmp.Value;
+                    tmp.Value = tmp.Next.Value;
+                    tmp.Next.Value = b;
+                    l = 1;
+                }
+                Node c = tmp;
+                tmp = tmp.Next;
                 while (tmp.Next != null)
                 {
                     if (tmp.Value > tmp.Next.Value)
                     {
-                        Node a = tmp;
-                        tmp = tmp.Next;                        
-                        a.Next = tmp.Next;
-                        tmp.Next = a;
-                        tmp = tmp.Next;
+                        int b = tmp.Value;
+                        tmp.Value = tmp.Next.Value;
+                        tmp.Next.Value = b;
                         l = 1;
-                    }                    
-                }
+                    }
+                    tmp = tmp.Next;
+                }               
                 if (l == 0)
                 {
                     break;
                 }
-            }            
+                tmp = c;
+            }
+        }
+
+        public void SortInDescending()  //делаем сортировку по убыванию (вставкой)
+        {
+            Node tmp = root;
+            for (int i = 1; i < length; i++)
+            {
+                int max = tmp.Next.Value;
+                int j = i;
+                while (j > 0 && tmp.Value < max)
+                {
+                    tmp.Next.Value = tmp.Value;
+                    j -= 1;
+                }
+                tmp.Value = max;
+                tmp = tmp.Next;
+            }
         }
     }
      
