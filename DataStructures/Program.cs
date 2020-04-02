@@ -6,18 +6,16 @@ namespace DataStructures
     {
         static void Main(string[] args)
         {
-            LinkedList L = new LinkedList(new int[] { 8, 4, 5, 6 });
+            LinkedList L = new LinkedList(new int[] { 8, 4, 5, 6, 10 });
             //LinkedList L = new LinkedList(1);
-            //L.AddAtTheEnd(2);
-            //L.AddAtTheEnd(3);
-            //L.AddAtTheEnd(4);
-            //L.AddAtTheEnd(new int[] {4, 5, 6});
-            //L.AddToTheBeginning(new int[] { 9, 8, 7 });
-            //L.AddByIndex(9, new int[] { 1, 2, 3 });
-            //L.RemoveFromEnd(9);
+
             //L.RemoveFromBeginning(4);
             //L.RemoveByIndex(1, 5);
-
+            //Console.WriteLine(L.FindMax());
+            //Console.Write(L.FindIndexMin());
+            L.SortInAscending();
+            //L.ReverseArray();
+            
             ReturnArr(L.ReturnArray());
             //Console.WriteLine(L.Length);            
 

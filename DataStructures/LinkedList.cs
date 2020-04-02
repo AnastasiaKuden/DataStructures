@@ -242,18 +242,18 @@ namespace DataStructures
                     {
                         b = tmp;
                         tmp = tmp.Next;
-                    }                        
+                    }
                     tmp = b;
                     tmp.Next = null;
                     length -= a;
-                }                
+                }
             }
         }
 
         public void RemoveFromBeginning()  //удаляем значение из начала
         {
             if (Length != 0)
-            {                
+            {
                 root = root.Next;
                 length--;
             }
@@ -282,9 +282,9 @@ namespace DataStructures
         }
 
         public void RemoveByIndex(int a)  //удаляем значение по индексу
-        {            
+        {
             if (Length != 0 && Length > a)
-            {   
+            {
                 if (a != 0)
                 {
                     Node tmp = root;
@@ -304,7 +304,7 @@ namespace DataStructures
                     root = root.Next;
                     length--;
                 }
-            }            
+            }
         }
 
         public void RemoveByIndex(int index, int a)  //удаляем несколько значений по индексу
@@ -314,8 +314,8 @@ namespace DataStructures
                 if (index == 0)
                 {
                     RemoveFromBeginning(a);
-                }                
-                else 
+                }
+                else
                 {
                     Node tmp = root;
                     Node b = new Node(0);
@@ -334,7 +334,7 @@ namespace DataStructures
                         tmp = b;
                         tmp.Next = c;
                         length -= a;
-                    }                         
+                    }
                     else
                     {
                         for (int i = 0; i < a && tmp != null; i++)
@@ -346,8 +346,146 @@ namespace DataStructures
                         tmp.Next = c;
                         length = index;
                     }
-                }                
+                }
             }
         }
+
+        public int FindIndex(int a)  //находим и возвращаем индекс по значению
+        {
+            int index = 0;
+            int index1 = 0;
+            Node tmp = root;
+            while (tmp.Next != null)
+            {
+                if (tmp.Value == a)
+                {
+                    index1 = index;
+                    break;
+                }
+                else
+                {
+                    index++;
+                    tmp = tmp.Next;
+                }
+            }
+            return index1;
+        }
+
+        public void ReverseArray()  //делаем реверс списка/массива
+        {                        
+            Node c = null;
+            while (root != null)
+            {
+                Node tmp = root.Next;
+                root.Next = c;
+                c = root;
+                root = tmp;               
+            }
+            root = c;
+        }
+
+        public int FindMax()  //находим максимальное значение
+        {
+            int max = 0;
+            Node tmp = root;
+            while (tmp != null)
+            {
+                if (max < tmp.Value)
+                {
+                    max = tmp.Value;
+                }
+                tmp = tmp.Next;
+            }            
+            return max;
+        }
+
+        public int FindMin()  //находим минимальное значения
+        {
+            int min = 0;
+            if (root != null)
+            {
+                min = root.Value;
+                Node tmp = root;
+                while (tmp != null)
+                {
+                    if (min > tmp.Value)
+                    {
+                        min = tmp.Value;
+                    }
+                    tmp = tmp.Next;
+                }
+            }            
+            return min;            
+        }
+
+        public int FindIndexMax()  //находим индекс максимального значения
+        {            
+            int a = 0;
+            if (root != null)
+            {
+                int index = 0;
+                int max = 0;                
+                Node tmp = root;
+                while (tmp != null)
+                {
+                    if (max < tmp.Value)
+                    {
+                        max = tmp.Value;
+                        a = index;
+                    }
+                    tmp = tmp.Next;
+                    index++;                    
+                }                
+            }            
+            return a;
+        }
+
+        public int FindIndexMin()  //находим индекс минимального значения
+        {            
+            int a = 0;
+            if (root != null)
+            {
+                int index = 0;
+                int min = root.Value;                
+                Node tmp = root;
+                while (tmp != null)
+                {
+                    if (min > tmp.Value)
+                    {
+                        min = tmp.Value;
+                        a = index;
+                    }
+                    tmp = tmp.Next;
+                    index++;
+                }                
+            }
+            return a;
+        }
+
+        public void SortInAscending() //делаем сортировку по возрастанию (пузырьком)
+        {
+            Node tmp = root;            
+            for (int i = 1; i < Length; i++)
+            {
+                int l = 0;
+                while (tmp.Next != null)
+                {
+                    if (tmp.Value > tmp.Next.Value)
+                    {
+                        Node a = tmp;
+                        tmp = tmp.Next;                        
+                        a.Next = tmp.Next;
+                        tmp.Next = a;
+                        tmp = tmp.Next;
+                        l = 1;
+                    }                    
+                }
+                if (l == 0)
+                {
+                    break;
+                }
+            }            
+        }
     }
+     
 }
