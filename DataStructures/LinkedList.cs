@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataStructures
 {
-    public class LinkedList
+    public class LinkedList : IDataStructures
     {
         private Node root;
         private int length;
@@ -23,14 +23,22 @@ namespace DataStructures
 
         public LinkedList(int[] a) ///конструктор с массивом на вход
         {
-            root = new Node(a[0]);
-            Node tmp = root;
-            for (int i = 1; i < a.Length; i++)
+            if (a.Length != 0)
             {
-                tmp.Next = new Node(a[i]);
-                tmp = tmp.Next;
+                root = new Node(a[0]);
+                Node tmp = root;
+                for (int i = 1; i < a.Length; i++)
+                {
+                    tmp.Next = new Node(a[i]);
+                    tmp = tmp.Next;
+                }
+                length = a.Length;
             }
-            length = a.Length;
+            else
+            {
+                root = null;
+                length = 0;
+            }           
         }
 
         public int Length  //возвращаем длину
@@ -56,25 +64,26 @@ namespace DataStructures
             return array;
         }
 
-        public int ReturnByIndex(int a)  //возвращаем значение по индексу
+        public int this[int a]   //возвращаем значение по индексу, меняем значение по индексу
         {
-            Node tmp = root;
-            for (int i = 0; i < a; i++)
+            get 
             {
-                tmp = tmp.Next;
+                Node tmp = root;
+                for (int i = 0; i < a; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                return tmp.Value;
             }
-            return tmp.Value;
-        }
-
-        public void ChangeByIndex(int a, int b)  //меняем значение по индексу
-        {
-            Node tmp = root;
-            for (int i = 0; i < a; i++)
+            set 
             {
-                tmp = tmp.Next;
+                Node tmp = root;
+                for (int i = 0; i < a; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                tmp.Value = value;
             }
-
-            tmp.Value = b;
         }
 
         public void AddAtTheEnd(int a)  //добавляем значение в конец
@@ -498,20 +507,62 @@ namespace DataStructures
 
         public void SortInDescending()  //делаем сортировку по убыванию (вставкой)
         {
-            Node tmp = root;
-            for (int i = 1; i < length; i++)
+            Node a = null;
+            while(root != null)
             {
-                int max = tmp.Next.Value;
-                int j = i;
-                while (j > 0 && tmp.Value < max)
+                Node tmp = root;
+                root = root.Next;
+                if (a  == null || tmp.Value > a.Value)
                 {
-                    tmp.Next.Value = tmp.Value;
-                    j -= 1;
+                    tmp.Next = a;
+                    a = tmp;
                 }
-                tmp.Value = max;
-                tmp = tmp.Next;
+                else
+                {
+                    Node b = a;
+                    while(b.Next != null && tmp.Value <= b.Next.Value)
+                    {
+                        b = b.Next;
+                    }
+                    tmp.Next = b.Next;
+                    b.Next = tmp;
+                }
             }
+            root = a;
         }
-    }
-     
+
+        public void RemoveByValue(int a)  //удаляем по значению
+        {
+            if (Length != 0)
+            {
+                while (root.Value == a && Length > 1)
+                {
+                    root = root.Next;
+                    length--;
+                }
+                if (Length == 1 && root.Value == a)
+                {
+                    root = null;
+                    length = 0;                    
+                }
+                else
+                {
+                    Node tmp = root;
+                    while (tmp.Next != null)
+                    {
+                        if (tmp.Next.Value == a)
+                        {
+                            Node b = tmp;
+                            tmp = tmp.Next;
+                            Node c = tmp.Next;
+                            tmp = b;
+                            tmp.Next = c;
+                            length--;
+                        }
+                        tmp = tmp.Next;
+                    }
+                }                
+            }           
+        }
+    }     
 }
