@@ -144,16 +144,41 @@ namespace DataStructures
 
         public void AddToTheBeginning(int[] a)  //добавляем массив в начало
         {
-            Node tmp = new Node(a[0]);
-            Node b = root;
-            root = tmp;
-            for (int i = 1; i < a.Length; i++)
+            if (length == 0)
             {
-                tmp.Next = new Node(a[i]);
-                tmp = tmp.Next;
+                if (a.Length != 0)
+                {
+                    root = new Node(a[0]);
+                    Node tmp = root;
+                    for (int i = 1; i < a.Length; i++)
+                    {
+                        tmp.Next = new Node(a[i]);
+                        tmp = tmp.Next;
+                    }
+                    length = a.Length;
+                }
+                else
+                {
+                    root = null;
+                    length = 0;
+                }
             }
-            tmp.Next = b;
-            length += a.Length;
+            else
+            {
+                if (a.Length != 0)
+                {
+                    Node tmp = new Node(a[0]);
+                    Node b = root;
+                    root = tmp;
+                    for (int i = 1; i < a.Length; i++)
+                    {
+                        tmp.Next = new Node(a[i]);
+                        tmp = tmp.Next;
+                    }
+                    tmp.Next = b;
+                    length += a.Length;
+                }
+            }            
         }
 
         public void AddByIndex(int index, int a)  //добавляем значение по индексу
