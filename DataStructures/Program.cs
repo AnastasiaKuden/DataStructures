@@ -6,8 +6,9 @@ namespace DataStructures
     {
         static void Main(string[] args)
         {
-            DoubleLinkedList L = new DoubleLinkedList(new int[] { 1, 2, 3, 4, 5});
+            DoubleLinkedList L = new DoubleLinkedList(new int[] { 1, 2, 3, 4});
             //DoubleLinkedList L = new DoubleLinkedList();
+            //LinkedList L = new LinkedList(new int[] { 1, 2, 3, 4, 5 });
             //Console.WriteLine(L.Length);
             //L[1] = 4;
             //Console.WriteLine(L[1]);
@@ -15,12 +16,12 @@ namespace DataStructures
             //L.AddToTheBeginning(new int[] {6, 7, 8 });
             //L.AddByIndex(4, new int[] { 6, 7, 8 });
             //L.RemoveFromEnd();
-            L.RemoveFromBeginning(5);
-            //L.RemoveByIndex(1, 5);
+            //L.RemoveFromBeginning(5);
+            //L.RemoveByIndex(4, 4);
             //Console.WriteLine(L.FindMax());
             //Console.Write(L.FindIndexMin());
             //L.SortInDescending();
-            //L.ReverseArray();
+            L.ReverseArray();
             //L.RemoveByValue(6);
             
             ReturnArr(L.ReturnArray());

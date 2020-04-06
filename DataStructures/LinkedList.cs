@@ -321,16 +321,12 @@ namespace DataStructures
             {
                 if (a != 0)
                 {
-                    Node tmp = root;
-                    Node b = new Node(0);
-                    for (int i = 0; i < a; i++)
-                    {
-                        b = tmp;
+                    Node tmp = root;                    
+                    for (int i = 1; i < a; i++)
+                    {                        
                         tmp = tmp.Next;
-                    }
-                    Node c = tmp.Next;
-                    tmp = b;
-                    tmp.Next = c;
+                    }                    
+                    tmp.Next = tmp.Next.Next;                    
                     length--;
                 }
                 else
@@ -351,33 +347,24 @@ namespace DataStructures
                 }
                 else
                 {
-                    Node tmp = root;
-                    Node b = new Node(0);
-                    for (int i = 0; i < index; i++)
-                    {
-                        b = tmp;
+                    Node tmp = root;                    
+                    for (int i = 1; i < index; i++)
+                    {                        
                         tmp = tmp.Next;
                     }
-                    if (Length >= index + a)
+                    if (Length > index + a)
                     {
+                        Node b = tmp;
                         for (int i = 0; i < a; i++)
                         {
-                            tmp = tmp.Next;
+                            b = b.Next;
                         }
-                        Node c = tmp;
-                        tmp = b;
-                        tmp.Next = c;
+                        tmp.Next = b.Next;                        
                         length -= a;
                     }
                     else
                     {
-                        for (int i = 0; i < a && tmp != null; i++)
-                        {
-                            tmp = tmp.Next;
-                        }
-                        Node c = tmp;
-                        tmp = b;
-                        tmp.Next = c;
+                        tmp.Next = null;
                         length = index;
                     }
                 }

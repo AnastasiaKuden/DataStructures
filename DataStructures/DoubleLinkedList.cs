@@ -374,30 +374,151 @@ namespace DataStructures
             }
         }
 
-        public void RemoveByIndex(int a)  //удаляем значение по индексу
+        public void RemoveByIndex(int index)  //удаляем значение по индексу
         {
-            if (Length != 0 && Length > a)
+            if (Length != 0 && Length > index)
             {
-                if (a != 0)
+                if (index == 0)
                 {
-                    Node tmp = root;
-                    Node b = new Node(0);
-                    for (int i = 0; i < a; i++)
-                    {
-                        b = tmp;
-                        tmp = tmp.Next;
-                    }
-                    Node c = tmp.Next;
-                    tmp = b;
-                    tmp.Next = c;
-                    length--;
+                    RemoveFromBeginning();
+                }
+                else if (index == Length - 1)
+                {
+                    RemoveFromEnd();
                 }
                 else
                 {
-                    root = root.Next;
-                    length--;
+                    if (index <= Length / 2)
+                    {
+                        L2Node tmp = root;
+                        for (int i = 1; i < index; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        tmp.Next = tmp.Next.Next;
+                        tmp.Next.Previous = tmp;
+                        length--;
+                    }
+                    else
+                    {
+                        L2Node tmp = end;
+                        for (int i = Length - 1; i > index; i--)
+                        {
+                            tmp = tmp.Previous;
+                        }
+                        tmp.Previous = tmp.Previous.Previous;
+                        tmp.Previous.Next = tmp;                        
+                        length--;
+                    }   
+                }                
+            }
+        }
+
+        public void RemoveByIndex(int index, int a)  //удаляем несколько значений по индексу
+        {
+            if (Length != 0 && Length > index)
+            {
+                if (index == 0)
+                {
+                    RemoveFromBeginning(a);
+                }                
+                else
+                {
+                    if (a <= Length / 2)
+                    {
+                        L2Node tmp = root;
+                        for (int i = 1; i < index; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        if (Length > index + a)
+                        {
+                            L2Node b = tmp.Next;
+                            for (int i = 1; i < a; i++)
+                            {
+                                b = b.Next;
+                            }
+                            tmp.Next = b.Next;
+                            tmp.Next.Previous = tmp;                            
+                            length -= a;
+                        }
+                        else
+                        {
+                            tmp.Next = null;
+                            end = tmp;
+                            length = index;
+                        }
+                    }
+                    else
+                    {                       
+                        if (Length > index + a)
+                        {
+                            L2Node tmp = end;
+                            for (int i = Length - 1; i > index + a; i--)
+                            {
+                                tmp = tmp.Previous;
+                            }
+                            L2Node b = tmp.Previous;
+                            for (int i = 1; i < a; i++)
+                            {
+                                b = b.Previous;
+                            }
+                            tmp.Previous = b.Previous;
+                            tmp.Previous.Next = tmp;                            
+                            length -= a;
+                        }
+                        else
+                        {
+                            L2Node tmp = end;
+                            for (int i = Length; i > index; i--)
+                            {
+                                tmp = tmp.Previous;
+                            }
+                            tmp.Next = null;
+                            end = tmp;
+                            length = index;
+                        }
+                    }
                 }
             }
+        }
+
+        public int FindIndex(int a)  //находим и возвращаем индекс по значению
+        {
+            int index = 0;
+            int index1 = 0;
+            L2Node tmp = root;
+            while (tmp.Next != null)
+            {
+                if (tmp.Value == a)
+                {
+                    index1 = index;
+                    break;
+                }
+                else
+                {
+                    index++;
+                    tmp = tmp.Next;
+                }
+            }
+            return index1;
+        }
+
+        public void ReverseArray()  //делаем реверс списка/массива
+        {
+            //L2Node tmp = end;
+            root.Value = end.Value;
+            end = root;
+            
+
+            //for (int i = 1; i < Length / 2; i++)
+            //{
+                //root.Next.Value = end.Previous.Value;
+                //end.Previous.Value = tmp.Next.Value;
+                //root.Next = root.Next.Next;
+               // end.Previous = end.Previous.Previous;
+                //tmp.Next = tmp.Next.Next;
+            //}
         }
     }    
 }
