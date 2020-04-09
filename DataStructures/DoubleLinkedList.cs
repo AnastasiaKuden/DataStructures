@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataStructures
 {
-    public class DoubleLinkedList
+    public class DoubleLinkedList : IDataStructures
     {
         private L2Node root;
         private L2Node end;
@@ -74,21 +74,33 @@ namespace DataStructures
         {
             get
             {
-                L2Node tmp = root;
-                for (int i = 0; i < a; i++)
+                int c;
+                if (a >= length || length == 0 || a < 0)
                 {
-                    tmp = tmp.Next;
+                    c = 0;
                 }
-                return tmp.Value;
+                else
+                {
+                    L2Node tmp = root;
+                    for (int i = 0; i < a; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
+                    c = tmp.Value;
+                }
+                return c;
             }
             set
             {
-                L2Node tmp = root;
-                for (int i = 0; i < a; i++)
+                if (a >= 0 && a < length && length != 0)
                 {
-                    tmp = tmp.Next;
-                }
-                tmp.Value = value;
+                    L2Node tmp = root;
+                    for (int i = 0; i < a; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
+                    tmp.Value = value;
+                }                    
             }
         }
 
@@ -211,113 +223,128 @@ namespace DataStructures
 
         public void AddByIndex(int index, int a)  //добавляем значение по индексу
         {
-            if (Length ==  0 || index >= Length)
+            if (index >= 0)
             {
-                AddAtTheEnd(a);
-            }
-            else
-            {                
-                if (index == 0)
+                if (Length == 0 || index >= Length)
                 {
-                    AddToTheBeginning(a);
-                }                
+                    AddAtTheEnd(a);
+                }
                 else
                 {
-                    if (index <= Length / 2)
+                    if (index == 0)
                     {
-                        L2Node tmp = root;                        
-                        for (int i = 1; i < index; i++)
-                        {
-                            tmp = tmp.Next;
-                        }
-                        L2Node b = tmp.Next;
-                        tmp.Next = new L2Node (a);
-                        tmp.Next.Previous = tmp;
-                        tmp = tmp.Next;
-                        tmp.Next = b;
-                        b.Previous = tmp;                        
-                        length++;
+                        AddToTheBeginning(a);
                     }
                     else
                     {
-                        L2Node tmp = end;
-                        for (int i = Length - 1; i > index; i--)
+                        if (index <= Length / 2)
                         {
-                            tmp = tmp.Previous;
+                            L2Node tmp = root;
+                            for (int i = 1; i < index; i++)
+                            {
+                                tmp = tmp.Next;
+                            }
+                            L2Node b = tmp.Next;
+                            tmp.Next = new L2Node(a);
+                            tmp.Next.Previous = tmp;
+                            tmp = tmp.Next;
+                            tmp.Next = b;
+                            b.Previous = tmp;
+                            length++;
                         }
-                        L2Node b = tmp.Previous;
-                        tmp.Previous = new L2Node(a);
-                        tmp.Previous.Next = tmp;
-                        tmp = tmp.Previous;
-                        tmp.Previous = b;
-                        b.Next = tmp;
-                        length++;
+                        else
+                        {
+                            L2Node tmp = end;
+                            for (int i = Length - 1; i > index; i--)
+                            {
+                                tmp = tmp.Previous;
+                            }
+                            L2Node b = tmp.Previous;
+                            tmp.Previous = new L2Node(a);
+                            tmp.Previous.Next = tmp;
+                            tmp = tmp.Previous;
+                            tmp.Previous = b;
+                            b.Next = tmp;
+                            length++;
+                        }
                     }
                 }
-            }
+            }            
         }
 
         public void AddByIndex(int index, int[] a)  //добавляем массив по индексу
         {
-            if (Length == 0 || index >= Length)
+            if (index >= 0)
             {
-                AddAtTheEnd(a);
-            }
-            else
-            {
-                if (index == 0)
+                if (Length == 0 || index >= Length)
                 {
-                    AddToTheBeginning(a);
+                    AddAtTheEnd(a);
                 }
                 else
                 {
-                    if (index <= Length / 2)
+                    if (index == 0)
                     {
-                        L2Node tmp = root;
-                        for (int i = 1; i < index; i++)
-                        {
-                            tmp = tmp.Next;
-                        }
-                        L2Node b = tmp.Next;
-                        for (int i = 0; i < a.Length; i++)
-                        {
-                            tmp.Next = new L2Node(a[i]);
-                            tmp.Next.Previous = tmp;
-                            tmp = tmp.Next;                            
-                        }
-                        tmp.Next = b;
-                        b.Previous = tmp;
-                        length += a.Length;
+                        AddToTheBeginning(a);
                     }
                     else
                     {
-                        L2Node tmp = end;
-                        for (int i = Length - 1; i > index; i--)
+                        if (index <= Length / 2)
                         {
-                            tmp = tmp.Previous;
+                            L2Node tmp = root;
+                            for (int i = 1; i < index; i++)
+                            {
+                                tmp = tmp.Next;
+                            }
+                            L2Node b = tmp.Next;
+                            for (int i = 0; i < a.Length; i++)
+                            {
+                                tmp.Next = new L2Node(a[i]);
+                                tmp.Next.Previous = tmp;
+                                tmp = tmp.Next;
+                            }
+                            tmp.Next = b;
+                            b.Previous = tmp;
+                            length += a.Length;
                         }
-                        L2Node b = tmp.Previous;
-                        for (int i = a.Length - 1; i >= 0; i--)
+                        else
                         {
-                            tmp.Previous = new L2Node(a[i]);
-                            tmp.Previous.Next = tmp;
-                            tmp = tmp.Previous;
-                        }                        
-                        tmp.Previous = b;
-                        b.Next = tmp;
-                        length += a.Length;
+                            L2Node tmp = end;
+                            for (int i = Length - 1; i > index; i--)
+                            {
+                                tmp = tmp.Previous;
+                            }
+                            L2Node b = tmp.Previous;
+                            for (int i = a.Length - 1; i >= 0; i--)
+                            {
+                                tmp.Previous = new L2Node(a[i]);
+                                tmp.Previous.Next = tmp;
+                                tmp = tmp.Previous;
+                            }
+                            tmp.Previous = b;
+                            b.Next = tmp;
+                            length += a.Length;
+                        }
                     }
                 }
-            }
+            }            
         }
 
         public void RemoveFromEnd()  //удаляем значение из конца
         {
             if (Length != 0)
             {
-                end.Previous.Next = null;
-                end = end.Previous;                
-                length--;
+                if (Length != 1)
+                {
+                    end.Previous.Next = null;
+                    end = end.Previous;
+                    length--;
+                }
+                else
+                {
+                    root = null;
+                    end = null;
+                    length--;
+                }                
             }
         }
 
@@ -363,20 +390,23 @@ namespace DataStructures
                 }
                 else
                 {
-                    L2Node tmp = root;
-                    for (int i = 0; i < a - 1; i++)
+                    if (a != 0)
                     {
-                        tmp = tmp.Next;
-                    }
-                    root = tmp.Next;
-                    length -= a;
+                        L2Node tmp = root;
+                        for (int i = 0; i < a - 1; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        root = tmp.Next;
+                        length -= a;
+                    }                    
                 }
             }
         }
 
         public void RemoveByIndex(int index)  //удаляем значение по индексу
         {
-            if (Length != 0 && Length > index)
+            if (Length != 0 && index >= 0 && Length > index)
             {
                 if (index == 0)
                 {
@@ -416,7 +446,7 @@ namespace DataStructures
 
         public void RemoveByIndex(int index, int a)  //удаляем несколько значений по индексу
         {
-            if (Length != 0 && Length > index)
+            if (Length != 0 && Length > index && index >= 0 && a >= 0)
             {
                 if (index == 0)
                 {
@@ -487,38 +517,233 @@ namespace DataStructures
         {
             int index = 0;
             int index1 = 0;
-            L2Node tmp = root;
-            while (tmp.Next != null)
+            if (length != 0)
             {
-                if (tmp.Value == a)
+                L2Node tmp = root;
+                while (tmp.Next != null)
                 {
-                    index1 = index;
-                    break;
+                    if (tmp.Value == a)
+                    {
+                        index1 = index;
+                        break;
+                    }
+                    else
+                    {
+                        index++;
+                        tmp = tmp.Next;
+                    }
                 }
-                else
-                {
-                    index++;
-                    tmp = tmp.Next;
-                }
-            }
+            }            
             return index1;
         }
 
         public void ReverseArray()  //делаем реверс списка/массива
         {
-            //L2Node tmp = end;
-            root.Value = end.Value;
-            end = root;
-            
+            if (length != 0)
+            {
+                int a = root.Value;
+                root.Value = end.Value;
+                end.Value = a;
+                L2Node b = end;
+                L2Node tmp = root;
+                for (int i = 1; i < length / 2; i++)
+                {
+                    a = tmp.Next.Value;
+                    tmp.Next.Value = b.Previous.Value;
+                    b.Previous.Value = a;
+                    tmp = tmp.Next;
+                    b = b.Previous;
+                }
+            }            
+        }
 
-            //for (int i = 1; i < Length / 2; i++)
-            //{
-                //root.Next.Value = end.Previous.Value;
-                //end.Previous.Value = tmp.Next.Value;
-                //root.Next = root.Next.Next;
-               // end.Previous = end.Previous.Previous;
-                //tmp.Next = tmp.Next.Next;
-            //}
+        public int FindMax()  //находим максимальное значение
+        {
+            int max = 0;
+            L2Node tmp = root;
+            while (tmp != null)
+            {
+                if (max < tmp.Value)
+                {
+                    max = tmp.Value;
+                }
+                tmp = tmp.Next;
+            }
+            return max;
+        }
+
+        public int FindMin()  //находим минимальное значения
+        {
+            int min = 0;
+            if (root != null)
+            {
+                min = root.Value;
+                L2Node tmp = root;
+                while (tmp != null)
+                {
+                    if (min > tmp.Value)
+                    {
+                        min = tmp.Value;
+                    }
+                    tmp = tmp.Next;
+                }
+            }
+            return min;
+        }
+
+        public int FindIndexMax()  //находим индекс максимального значения
+        {
+            int a = 0;
+            if (root != null)
+            {
+                int index = 0;
+                int max = 0;
+                L2Node tmp = root;
+                while (tmp != null)
+                {
+                    if (max < tmp.Value)
+                    {
+                        max = tmp.Value;
+                        a = index;
+                    }
+                    tmp = tmp.Next;
+                    index++;
+                }
+            }
+            else
+            {
+                a = -1;
+            }
+            return a;
+        }
+
+        public int FindIndexMin()  //находим индекс минимального значения
+        {
+            int a = 0;
+            if (root != null)
+            {
+                int index = 0;
+                int min = root.Value;
+                L2Node tmp = root;
+                while (tmp != null)
+                {
+                    if (min > tmp.Value)
+                    {
+                        min = tmp.Value;
+                        a = index;
+                    }
+                    tmp = tmp.Next;
+                    index++;
+                }
+            }
+            else
+            {
+                a = -1;
+            }
+            return a;
+        }
+
+        public void SortInAscending()  //делаем сортировку по возрастанию (пузырьком)
+        {
+            if (Length != 0)
+            {
+                L2Node tmp = root;
+                int l = 0;
+                while (tmp.Next != null)
+                {
+                    if (tmp.Value > tmp.Next.Value)
+                    {
+                        int a = tmp.Next.Value;
+                        tmp.Next.Value = tmp.Value;
+                        tmp.Value = a;
+                        l = 1;
+                    }
+                    tmp = tmp.Next;
+                }
+                if (l != 0)
+                {
+                    SortInAscending();
+                }
+            }            
+        }
+
+        public void SortInDescending()  //делаем сортировку по убыванию (вставкой)
+        {
+            if (Length != 0)
+            {
+                L2Node tmp = root;
+                while (tmp.Next != null)
+                {
+                    if (tmp.Value < tmp.Next.Value)
+                    {
+                        int a = tmp.Next.Value;
+                        tmp.Next.Value = tmp.Value;
+                        tmp.Value = a;
+                        SortInDescending();
+                    }
+                    else
+                    {
+                        tmp = tmp.Next;
+                    }
+                }
+            }            
+        }
+
+        public void RemoveByValue(int a)  //удаляем по значению
+        {
+            if (Length != 0)
+            {
+                while (root.Value == a && Length > 1)
+                {
+                    root = root.Next;                    
+                    length--;
+                }
+                if (Length == 1)
+                {
+                    if (root.Value == a)
+                    {
+                        root = null;
+                        end = null;
+                        length = 0;
+                    }
+                    else
+                    {
+                        end.Previous = root;                        
+                    }
+                }
+                else
+                {
+                    L2Node tmp = root;
+                    int b = Length;
+                    L2Node c;
+                    for (int i = 1; i < b - 1; i++)
+                    {
+                        if (tmp.Next.Value == a)
+                        {
+                            c = tmp.Next.Next;
+                            tmp.Next = c;                            
+                            c.Previous = tmp;
+                            length--;
+                        }
+                        else
+                        {
+                            tmp = tmp.Next;
+                        }
+                    }
+                    if (tmp.Next.Value == a)
+                    {
+                        tmp.Next = null;
+                        end = tmp;
+                        length--;
+                    }
+                    else
+                    {
+                        tmp = tmp.Next;
+                        end = tmp.Next;
+                    }
+                    
+                }
+            }
         }
     }    
 }

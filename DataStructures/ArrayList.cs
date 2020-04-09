@@ -12,8 +12,17 @@ namespace DataStructures
 
         public ArrayList(int[] array)  //конструктор с массивом на вход
         {
-            this.array = array;
-            this.length = array.Length;
+            if (array.Length != 0)
+            {
+                this.array = array;
+                this.length = array.Length;
+            }
+            else
+            {
+                array = new int[0];
+                length = 0;
+            }
+            
         }
 
         public ArrayList(int a)   //конструктор с числом на вход
@@ -45,8 +54,26 @@ namespace DataStructures
 
         public int this[int a]   //возвращаем значение по индексу, меняем значение по индексу
         {
-            get { return array[a]; }
-            set { array[a] = value; }
+            get 
+            {
+                int c;
+                if (a < 0 || a >= length || length == 0)
+                {
+                    c = 0;
+                }
+                else
+                {
+                    c = array[a];
+                }
+                return c;
+            }
+            set 
+            { 
+                if (a >= 0 && a < length && length != 0)
+                {
+                    array[a] = value;
+                }
+            }
         }
 
         private void UpArraySize()  //увеличиваем массив
@@ -116,113 +143,191 @@ namespace DataStructures
 
         public void AddByIndex(int a, int b)  //добавляем значение по индексу
         {
-            if (length >= array.Length)
+            if (a >= 0)
             {
-                UpArraySize();
-            }
-            for (int i = length; i > a; i--)
-            {
-                array[i] = array[i - 1];
-            }
-            array[a] = b;
-            length++;
+                if (length >= array.Length)
+                {
+                    UpArraySize();
+                }
+                if (length == 0 || a >= length)
+                {
+                    AddAtTheEnd(b);
+                }
+                else
+                {
+                    if (a == 0)
+                    {
+                        AddToTheBeginning(b);
+                    }
+                    else
+                    {
+                        for (int i = length; i > a; i--)
+                        {
+                            array[i] = array[i - 1];
+                        }
+                        array[a] = b;
+                        length++;
+                    }
+                }                
+            }           
         }
 
         public void AddByIndex(int a, int[] b)  //добавляем массив по индексу
         {
-            while (length + b.Length >= array.Length)
+            if (a >= 0)
             {
-                UpArraySize();
-            }
-            for (int i = length + b.Length - 1; i >= a + b.Length; i--)
-            {
-                array[i] = array[i - b.Length];
-            }
-            for (int i = a; i < a + b.Length; i++)
-            {
-                array[i] = b[i - a];
-            }
-            length += b.Length;
+                if (a > length)
+                {
+                    a = length;
+                }
+                while (length + b.Length >= array.Length)
+                {
+                    UpArraySize();
+                }
+                for (int i = length + b.Length - 1; i >= a + b.Length; i--)
+                {
+                    array[i] = array[i - b.Length];
+                }
+                for (int i = a; i < a + b.Length; i++)
+                {
+                    array[i] = b[i - a];
+                }
+                length += b.Length;
+            }            
         }
 
         public void RemoveFromEnd()  //удаляем значение из конца
         {
-            int[] newarray = new int[length - 1];
-            for (int i = 0; i < length - 1; i++)
+            if (length != 0)
             {
-                newarray[i] = array[i];
-            }
-            array = newarray;
-            length--;
+                int[] newarray = new int[length - 1];
+                for (int i = 0; i < length - 1; i++)
+                {
+                    newarray[i] = array[i];
+                }
+                array = newarray;
+                length--;
+            }            
         }
 
         public void RemoveFromEnd(int a)  //удаляем несколько значений из конца
         {
-            int[] newarray = new int[length - a];
-            for (int i = 0; i < length - a; i++)
+            if (Length != 0)
             {
-                newarray[i] = array[i];
-            }
-            array = newarray;
-            length -= a;
+                if (a < Length)
+                {
+                    int[] newarray = new int[length - a];
+                    for (int i = 0; i < length - a; i++)
+                    {
+                        newarray[i] = array[i];
+                    }
+                    array = newarray;
+                    length -= a;
+                }
+                else
+                {
+                    array = new int[0];
+                    length = 0;
+                }
+            }            
         }
 
         public void RemoveFromBeginning()  //удаляем значение из начала
         {
-            int[] newarray = new int[length - 1];
-            for (int i = 0; i < length - 1; i++)
+            if (length != 0)
             {
-                newarray[i] = array[i + 1];
-            }
-            array = newarray;
-            length--;
+                int[] newarray = new int[length - 1];
+                for (int i = 0; i < length - 1; i++)
+                {
+                    newarray[i] = array[i + 1];
+                }
+                array = newarray;
+                length--;
+            }            
         }
 
         public void RemoveFromBeginning(int a)  //удаляем несколько значений из начала
         {
-            int[] newarray = new int[length - a];
-            for (int i = 0; i < length - a; i++)
+            if (length != 0)
             {
-                newarray[i] = array[i + a];
-            }
-            array = newarray;
-            length -= a;
+                if (a <= length)
+                {
+                    int[] newarray = new int[length - a];
+                    for (int i = 0; i < length - a; i++)
+                    {
+                        newarray[i] = array[i + a];
+                    }
+                    array = newarray;
+                    length -= a;
+                }
+                else
+                {
+                    array = new int[0];
+                    length = 0;
+                }
+            }            
         }
 
         public void RemoveByIndex(int a)  //удаляем значение по индексу
         {
-            int[] newarray = new int[length - 1];
-            for (int i = 0; i < length - 1; i++)
+            if (length != 0 && a >= 0 && a < length)
             {
-                if (i < a)
+                int[] newarray = new int[length - 1];
+                for (int i = 0; i < length - 1; i++)
                 {
-                    newarray[i] = array[i];
+                    if (i < a)
+                    {
+                        newarray[i] = array[i];
+                    }
+                    else
+                    {
+                        newarray[i] = array[i + 1];
+                    }
                 }
-                else
-                {
-                    newarray[i] = array[i + 1];
-                }
-            }
-            array = newarray;
-            length--;
+                array = newarray;
+                length--;
+            }            
         }
 
         public void RemoveByIndex(int a, int b)  //удаляем несколько значений по индексу
         {
-            int[] newarray = new int[length - b];
-            for (int i = 0; i < length - b; i++)
+            if (length != 0 && a >= 0 && a < length && b >= 0)
             {
-                if (i < b)
+                if (a == 0)
                 {
-                    newarray[i] = array[i];
+                    RemoveFromBeginning(b);
                 }
                 else
                 {
-                    newarray[i] = array[i + b];
-                }
-            }
-            array = newarray;
-            length -= b;
+                    if (Length > a + b)
+                    {
+                        int[] newarray = new int[length - b];
+                        for (int i = 0; i < length - b; i++)
+                        {
+                            if (i < a)
+                            {
+                                newarray[i] = array[i];
+                            }
+                            else
+                            {
+                                newarray[i] = array[i + b];
+                            }
+                        }                        
+                        array = newarray;
+                        length -= b;
+                    }
+                    else
+                    {
+                        int[] newarray = new int[a];
+                        for (int i = 0; i < a; i++)
+                        {
+                            newarray[i] = array[i];                            
+                        }
+                        array = newarray;
+                        length = a;
+                    }
+                }                
+            }            
         }
 
         public int FindIndex(int a)  //находим и возвращаем индекс по значению
@@ -251,41 +356,64 @@ namespace DataStructures
 
         public int FindMax()  //находим максимальное значение
         {
-            int max = array[0];
-            for (int i = 1; i < length; i++)
+            int max;
+            if (length != 0)
             {
-                if (max < array[i])
+                max = array[0];
+                for (int i = 1; i < length; i++)
                 {
-                    max = array[i];
-                }
+                    if (max < array[i])
+                    {
+                        max = array[i];
+                    }
+                }                
+            }
+            else
+            {
+                max = 0;
             }
             return max;
         }
 
         public int FindMin()  //находим минимальное значения
         {
-            int min = array[0];
-            for (int i = 1; i < length; i++)
+            int min;
+            if (length != 0)
             {
-                if (min > array[i])
+                min = array[0];
+                for (int i = 1; i < length; i++)
                 {
-                    min = array[i];
+                    if (min > array[i])
+                    {
+                        min = array[i];
+                    }
                 }
             }
+            else
+            {
+                min = 0;
+            }            
             return min;
         }
 
         public int FindIndexMax()  //находим индекс максимального значения
         {
             int index = 0;
-            int max = array[0];
-            for (int i = 1; i < length; i++)
+            if(length != 0)
             {
-                if (max < array[i])
+                int max = array[0];
+                for (int i = 0; i < length; i++)
                 {
-                    max = array[i];
-                    index = i;
+                    if (max < array[i])
+                    {
+                        max = array[i];
+                        index = i;
+                    }
                 }
+            }
+            else
+            {
+                index = -1;
             }
             return index;
         }
@@ -293,14 +421,21 @@ namespace DataStructures
         public int FindIndexMin()  //находим индекс минимального значения
         {
             int index = 0;
-            int min = array[0];
-            for (int i = 1; i < length; i++)
+            if (length != 0)
             {
-                if (min > array[i])
+                int min = array[0];
+                for (int i = 1; i < length; i++)
                 {
-                    min = array[i];
-                    index = i;
+                    if (min > array[i])
+                    {
+                        min = array[i];
+                        index = i;
+                    }
                 }
+            }
+            else
+            {
+                index = -1;
             }
             return index;
         }

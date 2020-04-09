@@ -38,6 +38,8 @@ namespace DataStructures
         int FindIndexMax();
         int FindIndexMin();
 
+        void ReverseArray();
+
         void SortInAscending();
         void SortInDescending();
     }

@@ -68,21 +68,33 @@ namespace DataStructures
         {
             get 
             {
-                Node tmp = root;
-                for (int i = 0; i < a; i++)
+                int c;
+                if (a >= length || length == 0 || a < 0)
                 {
-                    tmp = tmp.Next;
+                    c = 0;
                 }
-                return tmp.Value;
+                else
+                {
+                    Node tmp = root;
+                    for (int i = 0; i < a; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
+                    c = tmp.Value;
+                }
+                return c;                
             }
             set 
             {
-                Node tmp = root;
-                for (int i = 0; i < a; i++)
+                if (a >= 0 && a < length && length != 0)
                 {
-                    tmp = tmp.Next;
-                }
-                tmp.Value = value;
+                    Node tmp = root;
+                    for (int i = 0; i < a; i++)
+                    {
+                        tmp = tmp.Next;
+                    }
+                    tmp.Value = value;
+                }                   
             }
         }
 
@@ -107,30 +119,41 @@ namespace DataStructures
 
         public void AddAtTheEnd(int[] a)  //добавляем массив в конец
         {
-            if (Length == 0)
+            if (length == 0)
             {
-                root = new Node(a[0]);
-                Node tmp = root;
-                for (int i = 1; i < a.Length; i++)
+                if (a.Length != 0)
                 {
-                    tmp.Next = new Node(a[i]);
-                    tmp = tmp.Next;
+                    root = new Node(a[0]);
+                    Node tmp = root;
+                    for (int i = 1; i < a.Length; i++)
+                    {
+                        tmp.Next = new Node(a[i]);
+                        tmp = tmp.Next;
+                    }
+                    length = a.Length;
                 }
-                length = a.Length;
+                else
+                {
+                    root = null;
+                    length = 0;
+                }                
             }
             else
             {
-                Node tmp = root;
-                while (tmp.Next != null)
+                if (a.Length != 0)
                 {
-                    tmp = tmp.Next;
-                }
-                for (int i = 0; i < a.Length; i++)
-                {
-                    tmp.Next = new Node(a[i]);
-                    tmp = tmp.Next;
-                }
-                length += a.Length;
+                    Node tmp = root;
+                    while (tmp.Next != null)
+                    {
+                        tmp = tmp.Next;
+                    }
+                    for (int i = 0; i < a.Length; i++)
+                    {
+                        tmp.Next = new Node(a[i]);
+                        tmp = tmp.Next;
+                    }
+                    length += a.Length;
+                }                
             }
         }
 
@@ -183,64 +206,70 @@ namespace DataStructures
 
         public void AddByIndex(int index, int a)  //добавляем значение по индексу
         {
-            if (Length < index)
+            if (index >= 0)
             {
-                AddAtTheEnd(a);
-            }
-            else
-            {
-                if (index == 0)
+                if (Length < index)
                 {
-                    AddToTheBeginning(a);
+                    AddAtTheEnd(a);
                 }
                 else
                 {
-                    Node tmp = root;
-                    Node b = new Node(a);
-                    for (int i = 0; i < index - 1; i++)
+                    if (index == 0)
                     {
-                        tmp = tmp.Next;
+                        AddToTheBeginning(a);
                     }
-                    Node c = tmp.Next;
-                    tmp.Next = b;
-                    b.Next = c;
-                    length++;
+                    else
+                    {
+                        Node tmp = root;
+                        Node b = new Node(a);
+                        for (int i = 0; i < index - 1; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        Node c = tmp.Next;
+                        tmp.Next = b;
+                        b.Next = c;
+                        length++;
+                    }
                 }
-            }
+            }            
         }
 
         public void AddByIndex(int index, int[] a)  //добавляем массив по индексу
         {
-            if (Length < index)
+            if (index >= 0)
             {
-                AddAtTheEnd(a);
-            }
-            else
-            {
-                if (index == 0)
+                if (Length == 0 || index >= Length)
                 {
-                    AddToTheBeginning(a);
+                    AddAtTheEnd(a);
                 }
                 else
                 {
-                    Node tmp = root;
-                    Node b = new Node(a[0]);
-                    for (int i = 0; i < index - 1; i++)
+                    if (index == 0)
                     {
-                        tmp = tmp.Next;
+                        AddToTheBeginning(a);
                     }
-                    Node c = tmp.Next;
-                    tmp.Next = b;
-                    for (int i = 1; i < a.Length; i++)
+                    else
                     {
-                        b.Next = new Node(a[i]);
-                        b = b.Next;
+                        Node tmp = root;
+                        Node b = new Node(a[0]);
+                        for (int i = 0; i < index - 1; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        Node c = tmp.Next;
+                        tmp.Next = b;
+                        for (int i = 1; i < a.Length; i++)
+                        {
+                            b.Next = new Node(a[i]);
+                            b = b.Next;
+                        }
+                        b.Next = c;
+                        length += a.Length;
                     }
-                    b.Next = c;
-                    length += a.Length;
                 }
-            }
-        }
+            }            
+        }   
 
         public void RemoveFromEnd()  //удаляем значение из конца
         {
@@ -304,20 +333,23 @@ namespace DataStructures
                 }
                 else
                 {
-                    Node tmp = root;
-                    for (int i = 0; i < a - 1; i++)
+                    if(a != 0)
                     {
-                        tmp = tmp.Next;
-                    }
-                    root = tmp.Next;
-                    length -= a;
+                        Node tmp = root;
+                        for (int i = 0; i < a - 1; i++)
+                        {
+                            tmp = tmp.Next;
+                        }
+                        root = tmp.Next;
+                        length -= a;
+                    }                    
                 }
             }
         }
 
         public void RemoveByIndex(int a)  //удаляем значение по индексу
         {
-            if (Length != 0 && Length > a)
+            if (Length != 0 && Length > a && a >= 0)
             {
                 if (a != 0)
                 {
@@ -339,7 +371,7 @@ namespace DataStructures
 
         public void RemoveByIndex(int index, int a)  //удаляем несколько значений по индексу
         {
-            if (Length != 0 && Length > index)
+            if (Length != 0 && Length > index && index >= 0 && a >= 0)
             {
                 if (index == 0)
                 {
@@ -375,20 +407,23 @@ namespace DataStructures
         {
             int index = 0;
             int index1 = 0;
-            Node tmp = root;
-            while (tmp.Next != null)
+            if (length != 0)
             {
-                if (tmp.Value == a)
+                Node tmp = root;
+                while (tmp.Next != null)
                 {
-                    index1 = index;
-                    break;
+                    if (tmp.Value == a)
+                    {
+                        index1 = index;
+                        break;
+                    }
+                    else
+                    {
+                        index++;
+                        tmp = tmp.Next;
+                    }
                 }
-                else
-                {
-                    index++;
-                    tmp = tmp.Next;
-                }
-            }
+            }            
             return index1;
         }
 
@@ -457,7 +492,11 @@ namespace DataStructures
                     tmp = tmp.Next;
                     index++;                    
                 }                
-            }            
+            }
+            else
+            {
+                a = -1;
+            }
             return a;
         }
 
@@ -480,67 +519,57 @@ namespace DataStructures
                     index++;
                 }                
             }
+            else
+            {
+                a = -1;
+            }
             return a;
         }
 
-        public void SortInAscending() //делаем сортировку по возрастанию (пузырьком)
+        public void SortInAscending()  //делаем сортировку по возрастанию (пузырьком)
         {
-            Node tmp = root;
-            for (int i = 1; i < Length; i++)
-            {                
+            if (Length != 0)
+            {
+                Node tmp = root;
                 int l = 0;
-                if (tmp.Value > tmp.Next.Value)
-                {
-                    int b = tmp.Value;
-                    tmp.Value = tmp.Next.Value;
-                    tmp.Next.Value = b;
-                    l = 1;
-                }
-                Node c = tmp;
-                tmp = tmp.Next;
                 while (tmp.Next != null)
                 {
                     if (tmp.Value > tmp.Next.Value)
                     {
-                        int b = tmp.Value;
-                        tmp.Value = tmp.Next.Value;
-                        tmp.Next.Value = b;
+                        int a = tmp.Next.Value;
+                        tmp.Next.Value = tmp.Value;
+                        tmp.Value = a;
                         l = 1;
                     }
                     tmp = tmp.Next;
-                }               
-                if (l == 0)
-                {
-                    break;
                 }
-                tmp = c;
-            }
+                if (l != 0)
+                {
+                    SortInAscending();
+                }
+            }            
         }
 
         public void SortInDescending()  //делаем сортировку по убыванию (вставкой)
         {
-            Node a = null;
-            while(root != null)
+            if (Length != 0)
             {
                 Node tmp = root;
-                root = root.Next;
-                if (a  == null || tmp.Value > a.Value)
+                while (tmp.Next != null)
                 {
-                    tmp.Next = a;
-                    a = tmp;
-                }
-                else
-                {
-                    Node b = a;
-                    while(b.Next != null && tmp.Value <= b.Next.Value)
+                    if (tmp.Value < tmp.Next.Value)
                     {
-                        b = b.Next;
+                        int a = tmp.Next.Value;
+                        tmp.Next.Value = tmp.Value;
+                        tmp.Value = a;
+                        SortInDescending();
                     }
-                    tmp.Next = b.Next;
-                    b.Next = tmp;
+                    else
+                    {
+                        tmp = tmp.Next;
+                    }
                 }
-            }
-            root = a;
+            }            
         }
 
         public void RemoveByValue(int a)  //удаляем по значению
@@ -560,18 +589,18 @@ namespace DataStructures
                 else
                 {
                     Node tmp = root;
-                    while (tmp.Next != null)
-                    {
+                    int b = Length;
+                    for (int i = 1; i < b; i++)
+                    {                        
                         if (tmp.Next.Value == a)
                         {
-                            Node b = tmp;
-                            tmp = tmp.Next;
-                            Node c = tmp.Next;
-                            tmp = b;
-                            tmp.Next = c;
+                            tmp.Next = tmp.Next.Next;                            
                             length--;
                         }
-                        tmp = tmp.Next;
+                        else
+                        {
+                            tmp = tmp.Next;
+                        }                        
                     }
                 }                
             }           
